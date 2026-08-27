@@ -476,6 +476,54 @@
 
   form .btn { width: 100%; justify-content: center; }
 
+  /* ---------- Botão flutuante WhatsApp ---------- */
+  .whatsapp-float {
+    position: fixed;
+    bottom: 26px;
+    right: 26px;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #25D366;
+    color: #fff;
+    padding: 14px 18px;
+    border-radius: 100px;
+    box-shadow: 0 10px 30px -6px rgba(37, 211, 102, 0.55);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.92rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    animation: float-pulse 2.6s ease-in-out infinite;
+  }
+
+  .whatsapp-float:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 14px 34px -6px rgba(37, 211, 102, 0.65);
+  }
+
+  .whatsapp-float svg { width: 24px; height: 24px; flex-shrink: 0; }
+
+  .whatsapp-float .wf-text {
+    max-width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  @keyframes float-pulse {
+    0%, 100% { box-shadow: 0 10px 30px -6px rgba(37, 211, 102, 0.55); }
+    50% { box-shadow: 0 10px 34px -4px rgba(37, 211, 102, 0.8); }
+  }
+
+  @media (max-width: 640px) {
+    .whatsapp-float { bottom: 18px; right: 18px; padding: 14px; }
+    .whatsapp-float .wf-text { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .whatsapp-float { animation: none; }
+  }
+
   /* ---------- Footer ---------- */
   footer {
     background: var(--navy);
@@ -544,7 +592,7 @@
     <p class="lead">Aulas com professores dedicados, foco em conversação real e um plano de estudo construído para o seu nível — não um curso genérico de prateleira.</p>
     <div class="hero-actions">
       <a href="#contato" class="btn btn-primary">Agende uma aula grátis</a>
-      <a href="https://wa.me/5500000000000" class="btn btn-whatsapp" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      <a href="https://wa.me/5531998841238" class="btn btn-whatsapp" target="_blank" rel="noopener">Falar no WhatsApp</a>
     </div>
   </div>
 </section>
@@ -650,12 +698,12 @@
       <div class="contact-detail"><span class="dot"></span> Turmas online e presenciais</div>
       <div class="contact-detail"><span class="dot"></span> contato@advancedenglish.com.br</div>
 
-      <div class="whatsapp-card">
+      <a href="https://wa.me/5531998841238" target="_blank" rel="noopener" class="whatsapp-card">
         <div>
           <strong>Prefere falar agora?</strong>
           <p>Clique e converse direto no WhatsApp.</p>
         </div>
-      </div>
+      </a>
     </div>
 
     <form id="contact-form">
@@ -686,6 +734,14 @@
     <div>Feito com dedicação, para quem quer ir longe no inglês.</div>
   </div>
 </footer>
+
+<a href="https://wa.me/5531998841238" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.868-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12.001 2C6.478 2 2 6.478 2 12c0 1.892.526 3.660 1.438 5.166L2 22l4.965-1.402C8.417 21.492 10.15 22 12.001 22c5.522 0 10-4.478 10-10S17.523 2 12.001 2zm0 18.29c-1.68 0-3.24-.49-4.556-1.335l-.327-.199-3.31.935.906-3.263-.213-.336A8.259 8.259 0 013.71 12c0-4.575 3.716-8.29 8.291-8.29 4.574 0 8.29 3.715 8.29 8.29 0 4.574-3.716 8.29-8.29 8.29z"/>
+  </svg>
+  <span class="wf-text">Fale no WhatsApp</span>
+</a>
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
