@@ -14,9 +14,10 @@
     --navy-soft: #1B3358;
     --steel: #7C8CA6;
     --steel-light: #C7D0DD;
-    --accent: #00B8B0;
+    --accent: #3E7BFA;
     --accent-warm: #FF6F5E;
     --gold: #E8B84B;
+    --online: #2ECC71;
     --paper: #FBFCFE;
     --paper-dim: #F1F4F9;
     --ink: #10203D;
@@ -54,8 +55,8 @@
 
   .nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
 
-  .logo { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
-  .logo-mark { width: 28px; height: 28px; flex-shrink: 0; }
+  .logo { display: flex; align-items: center; }
+  .logo-img { height: 40px; width: auto; display: block; }
 
   .nav-links { display: flex; gap: 26px; font-size: 0.92rem; font-weight: 500; }
   .nav-links a { position: relative; padding: 4px 0; white-space: nowrap; }
@@ -66,11 +67,39 @@
   .nav-links a:hover::after { width: 100%; }
 
   .nav-cta {
-    background: var(--navy); color: var(--paper) !important; padding: 10px 18px;
-    border-radius: 100px; font-weight: 600; font-size: 0.88rem; white-space: nowrap;
+    background: var(--navy); color: var(--paper) !important; padding: 14px 26px;
+    border-radius: 100px; font-weight: 700; font-size: 0.95rem; white-space: nowrap;
     transition: transform 0.2s ease, background 0.2s ease;
+    display: inline-flex; align-items: center; gap: 8px;
   }
   .nav-cta:hover { background: var(--accent-warm); transform: translateY(-1px); }
+
+  .menu-toggle {
+    display: none; flex-direction: column; justify-content: center; gap: 5px;
+    width: 40px; height: 40px; background: none; border: none; cursor: pointer;
+    padding: 8px;
+  }
+  .menu-toggle span {
+    display: block; width: 100%; height: 2px; background: var(--navy);
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle.active span:nth-child(2) { opacity: 0; }
+  .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-nav {
+    display: none; flex-direction: column; gap: 4px;
+    max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+    background: var(--paper); border-top: 1px solid rgba(16,32,61,0.08);
+  }
+  .mobile-nav.open { max-height: 420px; }
+  .mobile-nav a {
+    padding: 14px 28px; font-weight: 500; font-size: 0.98rem;
+    border-bottom: 1px solid rgba(16,32,61,0.06);
+  }
+  .mobile-nav .nav-cta {
+    margin: 14px 28px; justify-content: center; text-align: center;
+  }
 
   /* ---------- Hero ---------- */
   .hero {
@@ -90,7 +119,16 @@
     border: 1px solid rgba(251,252,254,0.16);
     color: var(--steel-light);
   }
-  .hero-tag .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  .hero-tag .dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--online);
+    box-shadow: 0 0 0 0 rgba(46,204,113,0.6);
+    animation: pulse-online 2s ease-in-out infinite;
+  }
+  @keyframes pulse-online {
+    0% { box-shadow: 0 0 0 0 rgba(46,204,113,0.55); }
+    70% { box-shadow: 0 0 0 6px rgba(46,204,113,0); }
+    100% { box-shadow: 0 0 0 0 rgba(46,204,113,0); }
+  }
 
   .hero-content { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; }
 
@@ -111,7 +149,7 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease; border: none; cursor: pointer;
   }
   .btn-primary { background: var(--accent); color: var(--navy-deep); }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 26px -8px rgba(0,184,176,0.5); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 26px -8px rgba(62,123,250,0.5); }
   .btn-ghost { background: rgba(251,252,254,0.08); color: var(--paper); border: 1.5px solid rgba(251,252,254,0.28); }
   .btn-ghost:hover { background: rgba(251,252,254,0.16); }
 
@@ -125,9 +163,9 @@
   .orbit-core {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
     width: 118px; height: 118px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), #0089A0);
+    background: linear-gradient(135deg, var(--accent), #2C5FD4);
     display: flex; align-items: center; justify-content: center; text-align: center;
-    box-shadow: 0 0 60px rgba(0,184,176,0.45);
+    box-shadow: 0 0 60px rgba(62,123,250,0.45);
     font-family: var(--font-display); font-weight: 700; font-size: 0.85rem; color: var(--navy-deep);
     padding: 10px;
   }
@@ -180,7 +218,7 @@
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   }
   .modality-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -18px rgba(16,32,61,0.2); }
-  .modality-card.highlight { border-color: var(--accent); background: linear-gradient(160deg, rgba(0,184,176,0.08), var(--paper-dim) 60%); }
+  .modality-card.highlight { border-color: var(--accent); background: linear-gradient(160deg, rgba(62,123,250,0.08), var(--paper-dim) 60%); }
 
   .modality-icon {
     width: 46px; height: 46px; border-radius: 13px;
@@ -195,7 +233,7 @@
 
   .modality-tag {
     display: inline-block; font-size: 0.76rem; font-weight: 700;
-    color: var(--accent); background: rgba(0,184,176,0.1);
+    color: var(--accent); background: rgba(62,123,250,0.1);
     padding: 4px 11px; border-radius: 100px; margin-bottom: 14px; width: fit-content;
   }
 
@@ -222,6 +260,26 @@
   .why-item p { font-size: 0.85rem; color: var(--steel); margin: 0; }
 
   /* ---------- FAQ ---------- */
+  /* ---------- Depoimentos ---------- */
+  .testimonials { background: var(--paper); }
+  .testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .testimonial-card {
+    background: var(--paper-dim); border-radius: 18px; padding: 28px;
+    border: 1px solid rgba(16,32,61,0.07); display: flex; flex-direction: column;
+  }
+  .testimonial-stars { color: var(--gold); font-size: 0.95rem; margin-bottom: 14px; letter-spacing: 2px; }
+  .testimonial-card p.quote { color: var(--navy-soft); font-size: 0.94rem; flex: 1; margin-bottom: 20px; }
+  .testimonial-author { display: flex; align-items: center; gap: 12px; }
+  .testimonial-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--navy));
+    display: flex; align-items: center; justify-content: center;
+    color: var(--paper); font-family: var(--font-display); font-weight: 700; font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .testimonial-author strong { display: block; font-size: 0.9rem; }
+  .testimonial-author span { font-size: 0.78rem; color: var(--steel); }
+
   .faq { background: var(--paper); }
   .faq-list { max-width: 720px; }
   .faq-item {
@@ -254,7 +312,34 @@
   .contact .section-head h2 { color: var(--paper); }
   .contact .section-head p { color: var(--steel-light); }
 
-  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: start; }
+
+  .map-embed { margin-top: 22px; border-radius: 16px; overflow: hidden; }
+
+  .trial-form {
+    background: rgba(251,252,254,0.06);
+    border: 1px solid rgba(251,252,254,0.14);
+    border-radius: 20px;
+    padding: 30px;
+  }
+  .trial-form-head { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+  .trial-star { font-size: 1.6rem; }
+  .trial-form-head strong { display: block; font-family: var(--font-display); font-size: 1.05rem; }
+  .trial-form-head span { font-size: 0.85rem; color: var(--steel-light); }
+
+  .field-group { margin-bottom: 16px; }
+  .field-group label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 6px; color: var(--steel-light); }
+  .field-group input, .field-group select {
+    width: 100%; padding: 12px 14px; border-radius: 10px;
+    border: 1.5px solid rgba(251,252,254,0.2);
+    background: rgba(251,252,254,0.05); color: var(--paper);
+    font-family: var(--font-body); font-size: 0.94rem;
+  }
+  .field-group select option { color: var(--ink); }
+  .field-group input:focus, .field-group select:focus { outline: none; border-color: var(--accent); }
+  .field-group input::placeholder { color: var(--steel-light); opacity: 0.6; }
+
+  .trial-submit { width: 100%; justify-content: center; margin-top: 6px; }
 
   .contact-detail-list { margin-bottom: 30px; }
   .contact-detail {
@@ -274,7 +359,7 @@
     border-radius: 14px; padding: 16px 18px;
     transition: background 0.2s ease, transform 0.2s ease;
   }
-  .quick-action:hover { background: rgba(0,184,176,0.16); transform: translateY(-3px); border-color: var(--accent); }
+  .quick-action:hover { background: rgba(62,123,250,0.16); transform: translateY(-3px); border-color: var(--accent); }
   .quick-action strong { display: block; font-size: 0.92rem; margin-bottom: 3px; }
   .quick-action span { font-size: 0.8rem; color: var(--steel-light); }
 
@@ -310,12 +395,16 @@
   /* ---------- Responsive ---------- */
   @media (max-width: 900px) {
     .nav-links { display: none; }
+    .desktop-only { display: none; }
+    .menu-toggle { display: flex; }
+    .mobile-nav { display: flex; }
     .hero-content { grid-template-columns: 1fr; }
     .orbit-wrap { min-height: 260px; margin-top: 10px; }
     .modality-grid { grid-template-columns: 1fr; }
     .essence-grid { grid-template-columns: 1fr; gap: 34px; }
     .why-grid { grid-template-columns: 1fr 1fr; }
     .contact-grid { grid-template-columns: 1fr; }
+    .testimonial-grid { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr; gap: 24px; }
   }
   @media (max-width: 560px) {
@@ -323,6 +412,7 @@
     .quick-actions { grid-template-columns: 1fr; }
     .whatsapp-float .wf-text { display: none; }
     .whatsapp-float { padding: 14px; }
+    .logo-img { height: 28px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .ring-1, .ring-2, .orbit-stat, .whatsapp-float { animation: none; }
@@ -334,23 +424,31 @@
 
 <header>
   <div class="wrap nav">
-    <div class="logo">
-      <svg class="logo-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="20" cy="20" rx="17" ry="7" stroke="#00B8B0" stroke-width="1.6" transform="rotate(20 20 20)"/>
-        <ellipse cx="20" cy="20" rx="17" ry="7" stroke="#10203D" stroke-width="1.6" transform="rotate(80 20 20)"/>
-        <ellipse cx="20" cy="20" rx="17" ry="7" stroke="#7C8CA6" stroke-width="1.6" transform="rotate(140 20 20)"/>
-      </svg>
-      Advanced English
-    </div>
+    <a href="#" class="logo">
+      <img src="assets/logo.jpg" alt="Advanced English" class="logo-img">
+    </a>
     <nav class="nav-links">
-      <a href="#modalidades">Modalidades</a>
+      <a href="#presencial">Presencial</a>
+      <a href="#aovivo">Aula ao Vivo</a>
+      <a href="aulas.html">Curso Gravado</a>
       <a href="#essencia">Sobre</a>
-      <a href="#faq">Dúvidas</a>
+      <a href="blog.html">Blog</a>
       <a href="#contato">Contato</a>
-      <a href="aulas.html">Área de Membros</a>
     </nav>
-    <a href="#contato" class="nav-cta">Aula grátis</a>
+    <a href="#contato" class="nav-cta desktop-only">⭐ Aula Experimental Grátis</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="#presencial">Presencial</a>
+    <a href="#aovivo">Aula ao Vivo</a>
+    <a href="aulas.html">Curso Gravado</a>
+    <a href="#essencia">Sobre</a>
+    <a href="blog.html">Blog</a>
+    <a href="#contato">Contato</a>
+    <a href="#contato" class="nav-cta">⭐ Aula Experimental Grátis</a>
+  </nav>
 </header>
 
 <section class="hero">
@@ -388,21 +486,21 @@
       <p>Escolha como estudar hoje — e mude de formato sempre que sua rotina pedir.</p>
     </div>
     <div class="modality-grid">
-      <div class="modality-card">
+      <div class="modality-card" id="presencial">
         <div class="modality-icon">🏫</div>
         <div class="modality-tag">Juiz de Fora · MG</div>
         <h3>Presencial</h3>
         <p>Aulas na unidade em Nova Era, Zona Norte, com turmas reduzidas e acompanhamento próximo do professor.</p>
         <a href="#contato" class="modality-link">Agendar visita <span class="arrow">→</span></a>
       </div>
-      <div class="modality-card highlight">
+      <div class="modality-card highlight" id="aovivo">
         <div class="modality-icon">🎥</div>
         <div class="modality-tag">Todo o Brasil</div>
         <h3>Aula ao Vivo</h3>
         <p>Turmas online em tempo real, com interação direta com o professor — de qualquer cidade do país.</p>
         <a href="#contato" class="modality-link">Ver horários <span class="arrow">→</span></a>
       </div>
-      <div class="modality-card">
+      <div class="modality-card" id="curso-gravado">
         <div class="modality-icon">▶</div>
         <div class="modality-tag">Assinatura</div>
         <h3>Curso Gravado</h3>
@@ -419,7 +517,7 @@
       <div class="eyebrow">Nossa essência</div>
       <h2>Mais do que um curso de inglês</h2>
       <p>A Advanced English nasceu com um propósito claro: tornar o aprendizado do inglês mais próximo, mais humano e mais eficiente.</p>
-      <p>Mais do que ensinar um idioma, criamos um espaço para que você desenvolva confiança para usar o inglês onde precisar — numa reunião, numa viagem, numa prova.</p>
+      <p>Mais do que ensinar um idioma, criamos um espaço para que você desenvolva confiança para usar o inglês onde precisar — em uma reunião, em uma viagem, em uma prova.</p>
     </div>
     <div class="why-grid">
       <div class="why-item">
@@ -446,6 +544,42 @@
   </div>
 </section>
 
+<section class="testimonials" id="depoimentos">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Depoimentos</div>
+      <h2>O que nossos alunos dizem</h2>
+      <p style="font-size: 0.85rem; color: var(--accent-warm);">Exemplo de estrutura — substitua pelos depoimentos reais dos seus alunos.</p>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="quote">"Depoimento de exemplo: fale aqui como o aluno descreveria a evolução dele desde que começou na escola."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">A</div>
+          <div><strong>Nome do aluno</strong><span>Turma Presencial</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="quote">"Depoimento de exemplo: destaque aqui algo específico, como perder o medo de falar ou uma conquista real."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">B</div>
+          <div><strong>Nome do aluno</strong><span>Aula ao Vivo</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="quote">"Depoimento de exemplo: fale sobre a flexibilidade de estudar no próprio ritmo com o Curso Gravado."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">C</div>
+          <div><strong>Nome do aluno</strong><span>Curso Gravado</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="faq" id="faq">
   <div class="wrap">
     <div class="section-head">
@@ -459,7 +593,7 @@
           <span class="icon"></span>
         </button>
         <div class="faq-a">
-          <p>Você entra numa videochamada em horário marcado, com professor e colegas, e participa em tempo real — com correção imediata de pronúncia e conversação guiada.</p>
+          <p>Você entra em uma videochamada em horário marcado, com professor e colegas, e participa em tempo real — com correção imediata de pronúncia e conversação guiada.</p>
         </div>
       </div>
       <div class="faq-item">
@@ -498,37 +632,78 @@
     <div class="section-head">
       <div class="eyebrow">Contato</div>
       <h2>Fale direto com a gente</h2>
-      <p>Escolha o assunto ou fale pelos nossos canais — respondemos rápido.</p>
+      <p>Preencha o formulário abaixo ou fale direto pelos nossos canais — respondemos rápido.</p>
     </div>
     <div class="contact-grid">
-      <div class="contact-detail-list">
-        <div class="contact-detail">
-          <div class="ic">📍</div>
-          <div><strong>Endereço</strong><p>Nova Era, Zona Norte — Juiz de Fora, MG</p></div>
+      <div>
+        <div class="contact-detail-list">
+          <div class="contact-detail">
+            <div class="ic">📍</div>
+            <div><strong>Endereço</strong><p>Rua Guimarães Júnior, 146 — Nova Era, Juiz de Fora, MG</p></div>
+          </div>
+          <div class="contact-detail">
+            <div class="ic">💬</div>
+            <div><strong>WhatsApp</strong><p>(31) 99884-1238</p></div>
+          </div>
+          <div class="contact-detail">
+            <div class="ic">✉️</div>
+            <div><strong>E-mail</strong><p>contato@advancedenglish.com.br</p></div>
+          </div>
         </div>
-        <div class="contact-detail">
-          <div class="ic">💬</div>
-          <div><strong>WhatsApp</strong><p>(31) 99884-1238</p></div>
-        </div>
-        <div class="contact-detail">
-          <div class="ic">✉️</div>
-          <div><strong>E-mail</strong><p>contato@advancedenglish.com.br</p></div>
+        <div class="map-embed">
+          <iframe
+            src="https://www.google.com/maps?q=Rua+Guimar%C3%A3es+J%C3%BAnior,146,Nova+Era,Juiz+de+Fora,MG&output=embed"
+            width="100%" height="240" style="border:0; border-radius: 16px;"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
         </div>
       </div>
-      <div class="quick-actions">
-        <a href="https://wa.me/5531998841238?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20os%20valores%20dos%20planos" class="quick-action">
-          <strong>💰 Valores</strong><span>Mensalidades e planos</span>
-        </a>
-        <a href="https://wa.me/5531998841238?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20aula%20experimental" class="quick-action">
-          <strong>🎁 Aula grátis</strong><span>Agendar experimental</span>
-        </a>
-        <a href="https://wa.me/5531998841238?text=Ol%C3%A1%2C%20tenho%20d%C3%BAvidas%20sobre%20a%20aula%20online" class="quick-action">
-          <strong>🎥 Aula online</strong><span>Dúvidas sobre o formato</span>
-        </a>
-        <a href="https://wa.me/5531998841238?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20um%20pouco%20mais%20sobre%20o%20ingl%C3%AAs" class="quick-action">
-          <strong>💭 Dúvidas</strong><span>Falar com a equipe</span>
-        </a>
-      </div>
+
+      <form class="trial-form" id="trialForm">
+        <div class="trial-form-head">
+          <span class="trial-star">⭐</span>
+          <div>
+            <strong>Aula Experimental Grátis</strong>
+            <span>Primeira aula sem custo, sem compromisso</span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="t-nome">Nome</label>
+          <input type="text" id="t-nome" placeholder="Seu nome completo" required>
+        </div>
+        <div class="field-group">
+          <label for="t-email">E-mail</label>
+          <input type="email" id="t-email" placeholder="voce@email.com" required>
+        </div>
+        <div class="field-group">
+          <label for="t-whats">WhatsApp</label>
+          <input type="tel" id="t-whats" placeholder="(00) 00000-0000" required>
+        </div>
+        <div class="field-group">
+          <label for="t-formato">Como estudar?</label>
+          <select id="t-formato" required>
+            <option value="" disabled selected>Escolha uma opção</option>
+            <option value="Online">Online</option>
+            <option value="Presencial">Presencial</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary trial-submit">Quero minha aula grátis</button>
+      </form>
+    </div>
+
+    <div class="quick-actions" style="margin-top: 40px;">
+      <a href="https://wa.me/5531998841238?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20os%20valores%20dos%20planos" class="quick-action">
+        <strong>💰 Valores</strong><span>Mensalidades e planos</span>
+      </a>
+      <a href="https://wa.me/5531998841238?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20aula%20experimental" class="quick-action">
+        <strong>🎁 Aula grátis</strong><span>Agendar experimental</span>
+      </a>
+      <a href="https://wa.me/5531998841238?text=Ol%C3%A1%2C%20tenho%20d%C3%BAvidas%20sobre%20a%20aula%20online" class="quick-action">
+        <strong>🎥 Aula online</strong><span>Dúvidas sobre o formato</span>
+      </a>
+      <a href="https://wa.me/5531998841238?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20um%20pouco%20mais%20sobre%20o%20ingl%C3%AAs" class="quick-action">
+        <strong>💭 Dúvidas</strong><span>Falar com a equipe</span>
+      </a>
     </div>
   </div>
 </section>
@@ -539,14 +714,16 @@
       <div class="footer-col">
         <h4>Advanced English</h4>
         <p style="max-width: 280px; font-size: 0.88rem;">Curso de inglês em Juiz de Fora e ao vivo online para todo o Brasil.</p>
+        <p style="font-size: 0.82rem; margin-top: 10px; color: var(--steel);">CNPJ: 66.859.411/0001-45</p>
       </div>
       <div class="footer-col">
         <h4>Páginas</h4>
         <ul>
-          <li><a href="#modalidades">Modalidades</a></li>
+          <li><a href="#presencial">Presencial</a></li>
+          <li><a href="#aovivo">Aula ao Vivo</a></li>
+          <li><a href="aulas.html">Curso Gravado</a></li>
           <li><a href="#essencia">Sobre</a></li>
-          <li><a href="aulas.html">Área de Membros</a></li>
-          <li><a href="#faq">Dúvidas</a></li>
+          <li><a href="blog.html">Blog</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -575,12 +752,38 @@
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  menuToggle.addEventListener('click', () => {
+    const isOpen = mobileNav.classList.toggle('open');
+    menuToggle.classList.toggle('active', isOpen);
+    menuToggle.setAttribute('aria-expanded', isOpen);
+  });
+  mobileNav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileNav.classList.remove('open');
+      menuToggle.classList.remove('active');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
   function toggleFaq(btn) {
     const item = btn.closest('.faq-item');
     const wasOpen = item.classList.contains('open');
     document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
     if (!wasOpen) item.classList.add('open');
   }
+
+  document.getElementById('trialForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nome = document.getElementById('t-nome').value;
+    const email = document.getElementById('t-email').value;
+    const whats = document.getElementById('t-whats').value;
+    const formato = document.getElementById('t-formato').value;
+    const texto = `Olá! Quero uma aula experimental grátis.\nNome: ${nome}\nE-mail: ${email}\nWhatsApp: ${whats}\nComo prefiro estudar: ${formato}`;
+    const url = `https://wa.me/5531998841238?text=${encodeURIComponent(texto)}`;
+    window.open(url, '_blank');
+  });
 </script>
 
 </body>
