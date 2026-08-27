@@ -315,7 +315,7 @@
 
   .program-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
   }
 
@@ -325,11 +325,21 @@
     border-radius: 20px;
     padding: 32px 28px;
     transition: transform 0.25s ease, background 0.25s ease;
+    display: block;
   }
 
   .program-card:hover {
     transform: translateY(-6px);
     background: rgba(251,252,254,0.09);
+  }
+
+  .program-card-link {
+    border-color: var(--accent);
+    background: rgba(0,184,176,0.08);
+  }
+
+  .program-card-link:hover {
+    background: rgba(0,184,176,0.14);
   }
 
   .program-level {
@@ -571,6 +581,7 @@
     <nav class="nav-links">
       <a href="#sobre">Sobre</a>
       <a href="#curso">Curso</a>
+      <a href="aulas.html">Área de Membros</a>
       <a href="#como-funciona">Como funciona</a>
       <a href="#contato">Contato</a>
     </nav>
@@ -657,6 +668,12 @@
         <p>Aulas 100% dedicadas à fala, para quem já entende inglês mas trava na hora de conversar.</p>
         <div class="program-tags"><span>A partir do A2</span><span>Grupos pequenos</span></div>
       </div>
+      <a href="aulas.html" class="program-card program-card-link">
+        <div class="program-level">Área de membros</div>
+        <h3>Estude no seu ritmo, quando quiser</h3>
+        <p>Biblioteca de vídeo-aulas por nível, com planos de assinatura mensal, trimestral ou anual.</p>
+        <div class="program-tags"><span>A partir de R$ 49/mês</span><span>Acesso imediato</span></div>
+      </a>
     </div>
   </div>
 </section>
