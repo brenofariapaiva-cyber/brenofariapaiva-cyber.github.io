@@ -270,12 +270,15 @@
   .testimonial-stars { color: var(--gold); font-size: 0.95rem; margin-bottom: 14px; letter-spacing: 2px; }
   .testimonial-card p.quote { color: var(--navy-soft); font-size: 0.94rem; flex: 1; margin-bottom: 20px; }
   .testimonial-author { display: flex; align-items: center; gap: 12px; }
+  .testimonial-avatar-wrap { position: relative; flex-shrink: 0; }
   .testimonial-avatar {
     width: 40px; height: 40px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--navy));
-    display: flex; align-items: center; justify-content: center;
-    color: var(--paper); font-family: var(--font-display); font-weight: 700; font-size: 0.9rem;
-    flex-shrink: 0;
+    object-fit: cover; display: block;
+  }
+  .testimonial-dot {
+    position: absolute; bottom: 0; right: 0;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #22C55E; border: 2px solid var(--paper-dim);
   }
   .testimonial-author strong { display: block; font-size: 0.9rem; }
   .testimonial-author span { font-size: 0.78rem; color: var(--steel); }
@@ -549,31 +552,39 @@
     <div class="section-head">
       <div class="eyebrow">Depoimentos</div>
       <h2>O que nossos alunos dizem</h2>
-      <p style="font-size: 0.85rem; color: var(--accent-warm);">Exemplo de estrutura — substitua pelos depoimentos reais dos seus alunos.</p>
     </div>
     <div class="testimonial-grid">
       <div class="testimonial-card">
         <div class="testimonial-stars">★★★★★</div>
         <p class="quote">"Depoimento de exemplo: fale aqui como o aluno descreveria a evolução dele desde que começou na escola."</p>
         <div class="testimonial-author">
-          <div class="testimonial-avatar">A</div>
-          <div><strong>Nome do aluno</strong><span>Turma Presencial</span></div>
+          <div class="testimonial-avatar-wrap">
+            <img src="assets/glenda.png" alt="Glenda Amorin" class="testimonial-avatar">
+            <span class="testimonial-dot"></span>
+          </div>
+          <div><strong>Glenda Amorin</strong><span>Turma Presencial</span></div>
         </div>
       </div>
       <div class="testimonial-card">
         <div class="testimonial-stars">★★★★★</div>
         <p class="quote">"Depoimento de exemplo: destaque aqui algo específico, como perder o medo de falar ou uma conquista real."</p>
         <div class="testimonial-author">
-          <div class="testimonial-avatar">B</div>
-          <div><strong>Nome do aluno</strong><span>Aula ao Vivo</span></div>
+          <div class="testimonial-avatar-wrap">
+            <img src="assets/maria.png" alt="Maria Fernanda Aquino" class="testimonial-avatar">
+            <span class="testimonial-dot"></span>
+          </div>
+          <div><strong>Maria Fernanda Aquino</strong><span>Aula ao Vivo</span></div>
         </div>
       </div>
       <div class="testimonial-card">
         <div class="testimonial-stars">★★★★★</div>
         <p class="quote">"Depoimento de exemplo: fale sobre a flexibilidade de estudar no próprio ritmo com o Curso Gravado."</p>
         <div class="testimonial-author">
-          <div class="testimonial-avatar">C</div>
-          <div><strong>Nome do aluno</strong><span>Curso Gravado</span></div>
+          <div class="testimonial-avatar-wrap">
+            <img src="assets/pedro.png" alt="Pedro Lucas Oliveira" class="testimonial-avatar">
+            <span class="testimonial-dot"></span>
+          </div>
+          <div><strong>Pedro Lucas Oliveira</strong><span>Curso Gravado</span></div>
         </div>
       </div>
     </div>
