@@ -263,6 +263,35 @@
   .video-info h3 { font-size: 1.02rem; margin-bottom: 6px; }
   .video-info p { font-size: 0.87rem; color: var(--steel); }
 
+  .video-thumb.playable { cursor: pointer; }
+  .video-thumb.playable:hover .play-icon { background: var(--accent); border-color: var(--accent); }
+
+  .video-modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(6,14,30,0.85);
+    align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .video-modal-overlay.open { display: flex; }
+  .video-modal {
+    width: 100%; max-width: 780px;
+    background: var(--navy);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+  }
+  .video-modal video { width: 100%; display: block; aspect-ratio: 16/9; background: #000; }
+  .video-modal-title { padding: 16px 20px; color: var(--paper); font-weight: 600; font-size: 0.98rem; }
+  .video-modal-close {
+    position: absolute; top: -14px; right: -14px;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--paper); color: var(--navy);
+    border: none; cursor: pointer;
+    font-size: 1rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+
   footer {
     background: var(--navy); color: var(--steel-light);
     padding: 32px 0; text-align: center; font-size: 0.88rem;
@@ -360,7 +389,7 @@
     <div class="video-grid">
 
       <div class="video-card">
-        <div class="video-thumb">
+        <div class="video-thumb playable" onclick="openVideoModal('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', 'Apresentando-se em inglês')">
           <span class="video-free-badge">Grátis</span>
           <div class="play-icon">▶</div>
         </div>
@@ -439,8 +468,38 @@
   <div class="wrap">© <span id="year"></span> Advanced English — página de exemplo, ainda não conectada a pagamento real.</div>
 </footer>
 
+<div class="video-modal-overlay" id="videoModalOverlay" onclick="if (event.target === this) closeVideoModal()">
+  <div class="video-modal">
+    <button type="button" class="video-modal-close" aria-label="Fechar" onclick="closeVideoModal()">✕</button>
+    <video id="videoModalPlayer" controls></video>
+    <div class="video-modal-title" id="videoModalTitle"></div>
+  </div>
+</div>
+
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  function openVideoModal(src, title) {
+    const overlay = document.getElementById('videoModalOverlay');
+    const player = document.getElementById('videoModalPlayer');
+    document.getElementById('videoModalTitle').textContent = title;
+    player.src = src;
+    player.play();
+    overlay.classList.add('open');
+  }
+
+  function closeVideoModal() {
+    const overlay = document.getElementById('videoModalOverlay');
+    const player = document.getElementById('videoModalPlayer');
+    player.pause();
+    player.removeAttribute('src');
+    player.load();
+    overlay.classList.remove('open');
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeVideoModal();
+  });
 </script>
 
 </body>
