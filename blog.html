@@ -22,7 +22,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: var(--font-body); color: var(--ink); background: var(--paper); line-height: 1.6; }
   a { text-decoration: none; color: inherit; }
-  .wrap { max-width: 900px; margin: 0 auto; padding: 0 28px; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 28px; }
   h1, h2 { font-family: var(--font-display); font-weight: 600; }
 
   header {
@@ -33,7 +33,7 @@
   .logo-img { height: 38px; }
   .back-link { font-size: 0.9rem; font-weight: 600; color: var(--navy-soft); }
 
-  .hero { padding: 64px 0 48px; }
+  .hero { padding: 64px 0 40px; }
   .eyebrow {
     font-size: 0.8rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
     color: var(--accent); margin-bottom: 14px; display: block;
@@ -41,22 +41,52 @@
   .hero h1 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); margin-bottom: 12px; }
   .hero p { color: var(--navy-soft); max-width: 520px; }
 
-  .post-list { padding-bottom: 80px; display: flex; flex-direction: column; gap: 22px; }
-  .post-card {
-    background: var(--paper-dim); border-radius: 18px; padding: 30px;
-    border: 1px solid rgba(16,32,61,0.07);
+  /* Filtro de categorias */
+  .filter-bar { display: flex; flex-wrap: wrap; gap: 10px; padding-bottom: 36px; }
+  .filter-pill {
+    font-size: 0.85rem; font-weight: 600; color: var(--navy-soft);
+    background: var(--paper-dim); border: 1.5px solid rgba(16,32,61,0.1);
+    padding: 9px 18px; border-radius: 100px; cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
   }
-  .post-meta { font-size: 0.82rem; color: var(--steel); margin-bottom: 10px; }
-  .post-card h2 { font-size: 1.25rem; margin-bottom: 10px; }
-  .post-card p { color: var(--navy-soft); font-size: 0.95rem; }
+  .filter-pill:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-pill.active { background: var(--navy); color: var(--paper); border-color: var(--navy); }
 
-  .notice {
-    background: rgba(255,111,94,0.08); border: 1px solid rgba(255,111,94,0.25);
-    border-radius: 14px; padding: 16px 20px; font-size: 0.88rem; color: var(--navy-soft);
-    margin-bottom: 36px;
+  .post-list { padding-bottom: 90px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .post-card {
+    background: var(--paper-dim); border-radius: 18px; overflow: hidden;
+    border: 1px solid rgba(16,32,61,0.07); display: flex; flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
+  .post-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px -14px rgba(16,32,61,0.18); }
+
+  .post-cover {
+    aspect-ratio: 16/9; background: linear-gradient(135deg, var(--navy), var(--navy-soft));
+    background-size: cover; background-position: center;
+    display: flex; align-items: flex-end; padding: 14px;
+  }
+  .post-cover .post-cat-tag {
+    background: rgba(251,252,254,0.14); backdrop-filter: blur(4px);
+    color: var(--paper); font-size: 0.72rem; font-weight: 700;
+    padding: 5px 12px; border-radius: 100px; letter-spacing: 0.02em;
+  }
+
+  .post-body { padding: 22px 24px 26px; display: flex; flex-direction: column; flex: 1; }
+  .post-meta { font-size: 0.8rem; color: var(--steel); margin-bottom: 10px; }
+  .post-card h2 { font-size: 1.1rem; margin-bottom: 8px; }
+  .post-card p.excerpt { color: var(--navy-soft); font-size: 0.9rem; flex: 1; }
+
+  .empty-state {
+    text-align: center; padding: 60px 20px; color: var(--steel);
+    background: var(--paper-dim); border-radius: 18px; border: 1px dashed rgba(16,32,61,0.15);
+  }
+  .empty-state strong { display: block; color: var(--navy); font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 8px; }
 
   footer { background: var(--navy-deep); color: var(--steel-light); padding: 28px 0; text-align: center; font-size: 0.85rem; }
+
+  @media (max-width: 640px) {
+    .post-list { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -77,22 +107,83 @@
 </section>
 
 <div class="wrap">
-  <div class="notice">📝 Estes são posts de exemplo, para você ver como o blog fica estruturado — troque pelos seus próprios textos quando quiser publicar.</div>
-</div>
-
-<div class="wrap post-list">
-  <a href="#" class="post-card">
-    <div class="post-meta">Destravar a fala · 23/07/2026</div>
-    <h2>Como perder o medo de falar inglês na hora que importa</h2>
-    <p>Você entende inglês, mas trava na hora de falar. Veja por que isso acontece, como perder o medo de falar inglês e o que fazer para destravar de vez.</p>
-  </a>
+  <div class="filter-bar" id="filterBar"></div>
+  <div class="post-list" id="postList"></div>
 </div>
 
 <footer>
   <div class="wrap">© <span id="year"></span> Advanced English</div>
 </footer>
 
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="blog-data.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  function estimateReadTime(html) {
+    const text = html.replace(/<[^>]*>/g, ' ');
+    const words = text.trim().split(/\s+/).filter(Boolean).length;
+    const minutes = Math.max(1, Math.round(words / 200));
+    return `${minutes} min de leitura`;
+  }
+
+  function formatDate(iso) {
+    const [y, m, d] = iso.split('-');
+    return `${d}/${m}/${y}`;
+  }
+
+  const sortedPosts = [...BLOG_POSTS].sort((a, b) => b.date.localeCompare(a.date));
+
+  let activeCategory = 'Todos';
+
+  function renderFilterBar() {
+    const bar = document.getElementById('filterBar');
+    bar.innerHTML = '';
+    ['Todos', ...BLOG_CATEGORIES].forEach(cat => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'filter-pill' + (cat === activeCategory ? ' active' : '');
+      btn.textContent = cat;
+      btn.addEventListener('click', () => {
+        activeCategory = cat;
+        renderFilterBar();
+        renderPostList();
+      });
+      bar.appendChild(btn);
+    });
+  }
+
+  function renderPostList() {
+    const list = document.getElementById('postList');
+    const posts = activeCategory === 'Todos'
+      ? sortedPosts
+      : sortedPosts.filter(p => p.category === activeCategory);
+
+    if (posts.length === 0) {
+      list.innerHTML = `
+        <div class="empty-state" style="grid-column: 1 / -1;">
+          <strong>Nenhum post por aqui ainda</strong>
+          <span>${activeCategory === 'Todos' ? 'Em breve, novos posts sobre inglês.' : 'Ainda não tem post nessa categoria — volte em breve.'}</span>
+        </div>`;
+      return;
+    }
+
+    list.innerHTML = posts.map(post => `
+      <a href="post.html?slug=${encodeURIComponent(post.slug)}" class="post-card">
+        <div class="post-cover" style="${post.cover ? `background-image:url('${post.cover}')` : ''}">
+          <span class="post-cat-tag">${post.category}</span>
+        </div>
+        <div class="post-body">
+          <div class="post-meta">${formatDate(post.date)} · ${estimateReadTime(post.content)}</div>
+          <h2>${post.title}</h2>
+          <p class="excerpt">${post.excerpt}</p>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  renderFilterBar();
+  renderPostList();
+</script>
 
 </body>
 </html>
