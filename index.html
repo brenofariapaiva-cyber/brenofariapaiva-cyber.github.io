@@ -252,8 +252,9 @@
     width: 46px; height: 46px; border-radius: 13px;
     background: var(--navy); color: var(--paper);
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.2rem; margin-bottom: 18px;
+    margin-bottom: 18px;
   }
+  .modality-icon svg { width: 22px; height: 22px; }
   .modality-card.highlight .modality-icon { background: var(--accent); color: var(--navy-deep); }
 
   .modality-card h3 { font-size: 1.15rem; margin-bottom: 8px; }
@@ -536,7 +537,11 @@
     </div>
     <div class="modality-grid">
       <div class="modality-card" id="presencial">
-        <div class="modality-icon">🏫</div>
+        <div class="modality-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 21V10L12 4l8 6v11"/><path d="M9 21v-6h6v6"/><path d="M4 10h16"/>
+          </svg>
+        </div>
         <div class="modality-tag">Juiz de Fora · MG</div>
         <h3>Presencial</h3>
         <p>Aulas na unidade em Nova Era, Zona Norte, com turmas reduzidas e acompanhamento próximo do professor.</p>
@@ -547,7 +552,11 @@
         <a href="#contato" class="modality-link">Agendar visita <span class="arrow">→</span></a>
       </div>
       <div class="modality-card highlight" id="aovivo">
-        <div class="modality-icon">🎥</div>
+        <div class="modality-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.5" y="6.5" width="13" height="11" rx="2"/><path d="M15.5 10l6-3.5v11l-6-3.5"/>
+          </svg>
+        </div>
         <div class="modality-tag">Todo o Brasil</div>
         <h3>Aula ao Vivo</h3>
         <p>Turmas online em tempo real, com interação direta com o professor — de qualquer cidade do país.</p>
@@ -558,7 +567,11 @@
         <a href="#contato" class="modality-link">Ver horários <span class="arrow">→</span></a>
       </div>
       <div class="modality-card" id="curso-gravado">
-        <div class="modality-icon">▶</div>
+        <div class="modality-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9.5"/><path d="M10 8.5l6 3.5-6 3.5z" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
         <div class="modality-tag">Assinatura</div>
         <h3>Curso Gravado</h3>
         <p>Vídeo-aulas por nível, disponíveis a qualquer hora, com planos mensal, trimestral ou anual.</p>
