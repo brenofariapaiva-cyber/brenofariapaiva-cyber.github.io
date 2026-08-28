@@ -284,6 +284,15 @@
   .essence-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
   .essence-text p { color: var(--navy-soft); margin-bottom: 16px; max-width: 460px; }
 
+  .directors-row { display: flex; gap: 26px; flex-wrap: wrap; margin-top: 24px; }
+  .director-item { display: flex; align-items: center; gap: 12px; }
+  .director-photo {
+    width: 52px; height: 52px; border-radius: 50%; object-fit: cover;
+    border: 2px solid var(--accent); flex-shrink: 0;
+  }
+  .director-item strong { display: block; font-size: 0.9rem; }
+  .director-item span { font-size: 0.78rem; color: var(--steel); }
+
   .why-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .why-item {
     background: var(--paper); border-radius: 16px; padding: 20px;
@@ -567,6 +576,16 @@
       <h2>Inglês próximo, prático e feito para você</h2>
       <p>Na Advanced English, aprender inglês vai além de decorar regras. Nossas aulas unem prática, acompanhamento próximo e atividades adaptadas ao ritmo de cada aluno.</p>
       <p>Do primeiro contato com o idioma à conversação, ajudamos crianças, adolescentes e adultos a desenvolver confiança para usar o inglês na escola, no trabalho, em viagens e no dia a dia.</p>
+      <div class="directors-row">
+        <div class="director-item">
+          <img src="assets/brenno.jpeg" alt="Brenno" class="director-photo">
+          <div><strong>Brenno</strong><span>Diretor-Geral</span></div>
+        </div>
+        <div class="director-item">
+          <img src="assets/roberta.jpeg" alt="Roberta" class="director-photo">
+          <div><strong>Roberta</strong><span>Diretora de Marketing e Finanças</span></div>
+        </div>
+      </div>
     </div>
     <div class="why-grid">
       <div class="why-item">
