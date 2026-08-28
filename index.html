@@ -207,6 +207,21 @@
 
   /* ---------- Section shell ---------- */
   section { padding: 92px 0; }
+
+  /* ---------- Nivelamento banner ---------- */
+  .nivel-banner { padding: 0 0 32px; }
+  .nivel-banner-card {
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    background: linear-gradient(135deg, rgba(62,123,250,0.08), rgba(232,184,75,0.06));
+    border: 1px solid rgba(62,123,250,0.18);
+    border-radius: 18px;
+    padding: 26px 32px;
+  }
+  .nivel-banner-text { display: flex; align-items: center; gap: 16px; }
+  .nivel-banner-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .nivel-banner-text strong { display: block; font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 4px; }
+  .nivel-banner-text p { font-size: 0.9rem; color: var(--steel); margin: 0; }
+  .nivel-banner-btn { white-space: nowrap; padding: 12px 26px; font-size: 0.9rem; }
   .section-head { max-width: 580px; margin-bottom: 52px; }
   .eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
@@ -422,6 +437,8 @@
     .contact-grid { grid-template-columns: 1fr; }
     .testimonial-grid { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    .nivel-banner-card { flex-direction: column; text-align: center; padding: 26px 22px; }
+    .nivel-banner-text { flex-direction: column; }
   }
   @media (max-width: 560px) {
     .why-grid { grid-template-columns: 1fr; }
@@ -558,6 +575,21 @@
         <h3>Para todas as idades</h3>
         <p>Metodologia adaptada para crianças a partir de 3 anos, adolescentes e adultos.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="nivel-banner">
+  <div class="wrap">
+    <div class="nivel-banner-card">
+      <div class="nivel-banner-text">
+        <span class="nivel-banner-icon">🧭</span>
+        <div>
+          <strong>Não sabe seu nível de inglês?</strong>
+          <p>Faça o Teste de Nivelamento e receba um plano de estudos personalizado — por R$ 14,99.</p>
+        </div>
+      </div>
+      <a href="nivelamento.html" class="btn btn-primary nivel-banner-btn">Fazer o teste</a>
     </div>
   </div>
 </section>
