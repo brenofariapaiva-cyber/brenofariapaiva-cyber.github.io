@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Teste de Nivelamento — Advanced English</title>
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root {
+    --navy: #10203D;
+    --navy-soft: #1B3358;
+    --steel: #7C8CA6;
+    --steel-light: #C7D0DD;
+    --accent: #3E7BFA;
+    --accent-warm: #FF6F5E;
+    --paper: #FBFCFE;
+    --paper-dim: #F1F4F9;
+    --ink: #10203D;
+    --gold: #E8B84B;
+
+    --font-display: 'Poppins', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.6;
+  }
+
+  a { text-decoration: none; color: inherit; }
+  ul { list-style: none; }
+
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; }
+
+  /* Header */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(251, 252, 254, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(16, 32, 61, 0.08);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
+  .logo-img { height: 34px; width: auto; display: block; }
+  .back-link { font-size: 0.85rem; font-weight: 600; color: var(--navy-soft); }
+
+  .progress-bar-track {
+    height: 4px; background: rgba(16,32,61,0.08); width: 100%;
+  }
+  .progress-bar-fill {
+    height: 100%; background: var(--accent); width: 0%;
+    transition: width 0.25s ease;
+  }
+
+  /* Intro */
+  .quiz-intro { padding: 48px 0 32px; text-align: center; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 14px;
+  }
+  .quiz-intro h1 { font-size: clamp(1.5rem, 3.4vw, 2.1rem); margin-bottom: 10px; }
+  .quiz-intro p { color: var(--steel); max-width: 520px; margin: 0 auto; }
+
+  /* Quiz */
+  .quiz-section { padding: 8px 0 48px; }
+  .part-label {
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--navy-soft); margin: 36px 0 18px;
+  }
+
+  .quiz-question {
+    background: var(--paper-dim); border: 1px solid rgba(16,32,61,0.08);
+    border-radius: 16px; padding: 22px 24px; margin-bottom: 16px;
+  }
+  .quiz-question h3 { font-size: 1rem; font-weight: 600; margin-bottom: 14px; }
+  .quiz-question .q-num { color: var(--accent); margin-right: 6px; }
+
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+  .quiz-option {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px; border-radius: 10px;
+    border: 1.5px solid rgba(16,32,61,0.12);
+    background: var(--paper);
+    cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease;
+    font-size: 0.94rem;
+  }
+  .quiz-option:hover { border-color: var(--accent); }
+  .quiz-option.selected { border-color: var(--accent); background: rgba(62,123,250,0.08); }
+  .quiz-option input { accent-color: var(--accent); width: 17px; height: 17px; flex-shrink: 0; }
+
+  .quiz-submit-wrap { text-align: center; margin-top: 30px; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 16px 34px; border-radius: 100px; border: none;
+    font-weight: 700; font-size: 1rem; cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+    font-family: inherit;
+  }
+  .btn-primary { background: var(--accent); color: var(--navy); }
+  .btn-primary:hover { background: var(--accent-warm); transform: translateY(-2px); }
+  .btn-ghost { background: none; border: 1.5px solid rgba(16,32,61,0.15); color: var(--navy); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  .quiz-warning { color: var(--accent-warm); font-size: 0.85rem; margin-top: 12px; display: none; }
+  .quiz-warning.show { display: block; }
+
+  /* Results */
+  .results-section { display: none; padding: 60px 0 70px; }
+  .results-section.show { display: block; }
+  .quiz-section.hide { display: none; }
+  .quiz-intro.hide { display: none; }
+
+  .result-card {
+    background: var(--navy); color: var(--paper);
+    border-radius: 20px; padding: 44px 34px; text-align: center;
+  }
+  .result-card .eyebrow { color: var(--gold); }
+  .result-card h2 { font-size: 1.7rem; margin-bottom: 6px; }
+  .result-level { font-family: var(--font-display); font-size: 2.4rem; font-weight: 700; color: var(--accent); margin: 14px 0 4px; }
+  .result-score { color: var(--steel-light); font-size: 0.9rem; margin-bottom: 28px; }
+
+  .result-detail {
+    background: rgba(251,252,254,0.06); border: 1px solid rgba(251,252,254,0.14);
+    border-radius: 14px; padding: 20px 22px; text-align: left; margin-bottom: 18px;
+  }
+  .result-detail strong { display: block; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--steel-light); margin-bottom: 6px; }
+  .result-detail span { font-size: 1.02rem; }
+
+  .result-actions { margin-top: 26px; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+  .result-enroll { font-size: 0.88rem; color: var(--steel-light); }
+  .result-enroll a { color: var(--accent); font-weight: 600; text-decoration: underline; }
+
+  footer {
+    background: var(--navy); color: var(--steel-light);
+    padding: 28px 0; text-align: center; font-size: 0.82rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="index.html"><img src="assets/logo.png" alt="Advanced English" class="logo-img"></a>
+    <a href="index.html" class="back-link">Voltar ao site</a>
+  </div>
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+</header>
+
+<div class="quiz-intro" id="quizIntro">
+  <div class="wrap">
+    <div class="eyebrow">Teste de Nivelamento</div>
+    <h1>Vamos descobrir seu nível de inglês</h1>
+    <p>Responda as 12 perguntas de nível e as 3 perguntas de perfil abaixo. Leva menos de 10 minutos.</p>
+  </div>
+</div>
+
+<div class="quiz-section" id="quizSection">
+  <div class="wrap">
+    <div class="part-label">Parte 1 — Nível de inglês</div>
+    <div id="levelQuestions"></div>
+
+    <div class="part-label">Parte 2 — Seu perfil de estudo</div>
+    <div id="profileQuestions"></div>
+
+    <div class="quiz-submit-wrap">
+      <button type="button" class="btn btn-primary" id="submitQuiz">Ver meu resultado</button>
+      <div class="quiz-warning" id="quizWarning">Responda todas as perguntas antes de continuar.</div>
+    </div>
+  </div>
+</div>
+
+<div class="results-section" id="resultsSection">
+  <div class="wrap">
+    <div class="result-card">
+      <div class="eyebrow">Resultado</div>
+      <h2>Seu nível de inglês é</h2>
+      <div class="result-level" id="resultLevel"></div>
+      <div class="result-score" id="resultScore"></div>
+
+      <div class="result-detail">
+        <strong>Formato recomendado</strong>
+        <span id="resultFormat"></span>
+      </div>
+      <div class="result-detail">
+        <strong>Foco sugerido</strong>
+        <span id="resultFocus"></span>
+      </div>
+
+      <div class="result-actions">
+        <button type="button" class="btn btn-primary" id="downloadPdf">Baixar meu PDF personalizado</button>
+        <div class="result-enroll">Pronto pra começar? <a href="index.html" id="enrollLink">Quero me matricular</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">© <span id="year"></span> Advanced English. Todos os direitos reservados.</div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const levelQuestionsData = [
+    { q: 'I ___ from Brazil.', options: { a: 'is', b: 'am', c: 'are' }, correct: 'b' },
+    { q: 'Qual é o plural de "child"?', options: { a: 'childs', b: 'children', c: 'childes' }, correct: 'b' },
+    { q: 'She ___ to the gym every morning.', options: { a: 'go', b: 'goes', c: 'going' }, correct: 'b' },
+    { q: 'There ___ some apples in the fridge.', options: { a: 'is', b: 'are', c: 'be' }, correct: 'b' },
+    { q: 'If I ___ more time, I would travel more.', options: { a: 'have', b: 'had', c: 'has' }, correct: 'b' },
+    { q: 'Qual frase está correta?', options: { a: '"I have been living here since five years."', b: '"I have been living here for five years."' }, correct: 'b' },
+    { q: 'By the time we arrived, the movie ___.', options: { a: 'already started', b: 'had already started', c: 'has already started' }, correct: 'b' },
+    { q: "She's the person ___ car was stolen.", options: { a: 'who', b: 'whose', c: 'which' }, correct: 'b' },
+    { q: 'I wish I ___ harder for the exam.', options: { a: 'study', b: 'studied', c: 'had studied' }, correct: 'c' },
+    { q: 'Qual palavra é mais próxima de "reluctant"?', options: { a: 'eager', b: 'unwilling', c: 'confident' }, correct: 'b' },
+    { q: 'Not only ___ late, but he also forgot the documents.', options: { a: 'he was', b: 'was he', c: 'he did' }, correct: 'b' },
+    { q: "The company's profits have significantly ___ this quarter.", options: { a: 'rose', b: 'risen', c: 'raised' }, correct: 'c' }
+  ];
+
+  const profileQuestionsData = [
+    { id: 'p1', q: 'Quanto tempo por semana você consegue dedicar aos estudos?', options: { a: 'Menos de 2 horas', b: 'Entre 2 e 5 horas', c: 'Mais de 5 horas' } },
+    { id: 'p2', q: 'Como você prefere estudar?', options: { a: 'Sozinho(a), no meu próprio ritmo', b: 'Com horário fixo e um professor', c: 'Tanto faz, quero o mais eficiente' } },
+    { id: 'p3', q: 'Qual é o seu principal objetivo com o inglês?', options: { a: 'Viajar', b: 'Trabalho ou carreira', c: 'Prova ou intercâmbio', d: 'Comunicação no dia a dia' } }
+  ];
+
+  const focusByObjective = {
+    a: 'Foco em conversação prática pro dia a dia de viagem.',
+    b: 'Foco em inglês profissional e vocabulário de negócios.',
+    c: 'Foco em gramática avançada e preparação estruturada.',
+    d: 'Foco em fluência natural e vocabulário do cotidiano.'
+  };
+
+  const enrollLinkByFormat = {
+    'Curso Gravado': 'aulas.html',
+    'Presencial': 'index.html#presencial',
+    'Aula ao Vivo': 'index.html#aovivo'
+  };
+
+  function renderQuestion(name, data, container) {
+    const card = document.createElement('div');
+    card.className = 'quiz-question';
+
+    const title = document.createElement('h3');
+    title.textContent = data.q;
+    card.appendChild(title);
+
+    const optionsWrap = document.createElement('div');
+    optionsWrap.className = 'quiz-options';
+
+    Object.keys(data.options).forEach(key => {
+      const optId = `${name}-${key}`;
+      const label = document.createElement('label');
+      label.className = 'quiz-option';
+      label.setAttribute('for', optId);
+
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = name;
+      input.value = key;
+      input.id = optId;
+
+      const span = document.createElement('span');
+      span.textContent = data.options[key];
+
+      label.appendChild(input);
+      label.appendChild(span);
+      optionsWrap.appendChild(label);
+
+      input.addEventListener('change', () => {
+        optionsWrap.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+        label.classList.add('selected');
+        updateProgress();
+      });
+    });
+
+    card.appendChild(optionsWrap);
+    container.appendChild(card);
+  }
+
+  const levelContainer = document.getElementById('levelQuestions');
+  levelQuestionsData.forEach((data, i) => renderQuestion(`q${i + 1}`, data, levelContainer));
+
+  const profileContainer = document.getElementById('profileQuestions');
+  profileQuestionsData.forEach(data => renderQuestion(data.id, data, profileContainer));
+
+  const totalQuestions = levelQuestionsData.length + profileQuestionsData.length;
+
+  function updateProgress() {
+    const answered = document.querySelectorAll('.quiz-options input:checked').length;
+    document.getElementById('progressFill').style.width = `${(answered / totalQuestions) * 100}%`;
+  }
+
+  function getAnswer(name) {
+    const checked = document.querySelector(`input[name="${name}"]:checked`);
+    return checked ? checked.value : null;
+  }
+
+  let lastResult = null;
+
+  document.getElementById('submitQuiz').addEventListener('click', () => {
+    const levelAnswers = levelQuestionsData.map((_, i) => getAnswer(`q${i + 1}`));
+    const profileAnswers = {
+      p1: getAnswer('p1'),
+      p2: getAnswer('p2'),
+      p3: getAnswer('p3')
+    };
+
+    const allAnswered = levelAnswers.every(a => a !== null) &&
+      profileAnswers.p1 !== null && profileAnswers.p2 !== null && profileAnswers.p3 !== null;
+
+    if (!allAnswered) {
+      document.getElementById('quizWarning').classList.add('show');
+      const firstUnanswered = Array.from(document.querySelectorAll('.quiz-question'))
+        .find(card => !card.querySelector('input:checked'));
+      if (firstUnanswered) firstUnanswered.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    document.getElementById('quizWarning').classList.remove('show');
+
+    let score = 0;
+    levelAnswers.forEach((answer, i) => {
+      if (answer === levelQuestionsData[i].correct) score++;
+    });
+
+    let level;
+    if (score <= 3) level = 'Iniciante (A1)';
+    else if (score <= 6) level = 'Básico (A2)';
+    else if (score <= 9) level = 'Intermediário (B1/B2)';
+    else level = 'Avançado (C1)';
+
+    let format;
+    if (profileAnswers.p2 === 'a') {
+      format = 'Curso Gravado';
+    } else if (profileAnswers.p2 === 'b') {
+      format = profileAnswers.p1 === 'c' ? 'Presencial' : 'Aula ao Vivo';
+    } else {
+      format = 'Aula ao Vivo';
+    }
+
+    const focus = focusByObjective[profileAnswers.p3];
+
+    lastResult = { score, level, format, focus };
+
+    document.getElementById('resultLevel').textContent = level;
+    document.getElementById('resultScore').textContent = `${score} de 12 acertos`;
+    document.getElementById('resultFormat').textContent = format;
+    document.getElementById('resultFocus').textContent = focus;
+    document.getElementById('enrollLink').setAttribute('href', enrollLinkByFormat[format]);
+
+    document.getElementById('quizIntro').classList.add('hide');
+    document.getElementById('quizSection').classList.add('hide');
+    document.getElementById('resultsSection').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  document.getElementById('downloadPdf').addEventListener('click', () => {
+    if (!lastResult) return;
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(22);
+    doc.setTextColor(16, 32, 61);
+    doc.text('Advanced English', 20, 28);
+
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Resultado do Teste de Nivelamento', 20, 38);
+
+    doc.setDrawColor(220, 220, 220);
+    doc.line(20, 44, 190, 44);
+
+    doc.setFontSize(12);
+    doc.setTextColor(90, 90, 90);
+    doc.text('Seu nível de inglês', 20, 58);
+    doc.setFontSize(18);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(62, 123, 250);
+    doc.text(lastResult.level, 20, 68);
+
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(90, 90, 90);
+    doc.text(`${lastResult.score} de 12 acertos no teste de nível`, 20, 76);
+
+    doc.setFontSize(12);
+    doc.setTextColor(90, 90, 90);
+    doc.text('Formato de aula recomendado', 20, 92);
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(16, 32, 61);
+    doc.text(lastResult.format, 20, 101);
+
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(90, 90, 90);
+    doc.text('Foco sugerido para seus estudos', 20, 115);
+    doc.setFontSize(12);
+    doc.setTextColor(16, 32, 61);
+    const focusLines = doc.splitTextToSize(lastResult.focus, 170);
+    doc.text(focusLines, 20, 123);
+
+    doc.setDrawColor(220, 220, 220);
+    doc.line(20, 145, 190, 145);
+
+    doc.setFontSize(13);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(16, 32, 61);
+    doc.text('Pronto pra dar o próximo passo?', 20, 158);
+
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(90, 90, 90);
+    const inviteText = `Matricule-se no formato ${lastResult.format} da Advanced English e comece a evoluir seu inglês com um plano de estudos feito sob medida pra você.`;
+    const inviteLines = doc.splitTextToSize(inviteText, 170);
+    doc.text(inviteLines, 20, 166);
+
+    doc.setFontSize(9);
+    doc.setTextColor(150, 150, 150);
+    doc.text('advancedenglish.com.br', 20, 280);
+
+    doc.save('resultado-teste-nivelamento-advanced-english.pdf');
+  });
+</script>
+
+</body>
+</html>
