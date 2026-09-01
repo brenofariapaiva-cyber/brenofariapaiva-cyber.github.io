@@ -80,13 +80,25 @@
   }
   .video-modal-overlay.open { display: flex; }
   .video-modal { width: 100%; max-width: 780px; background: var(--navy); border-radius: 16px; overflow: hidden; position: relative; }
-  .video-modal video { width: 100%; display: block; aspect-ratio: 16/9; background: #000; }
+  .video-modal iframe { width: 100%; display: block; aspect-ratio: 16/9; background: #000; border: none; }
   .video-modal-title { padding: 16px 20px; color: var(--paper); font-weight: 600; font-size: 0.98rem; }
   .video-modal-close {
     position: absolute; top: -14px; right: -14px; width: 34px; height: 34px; border-radius: 50%;
     background: var(--paper); color: var(--navy); border: none; cursor: pointer;
     font-size: 1rem; font-weight: 700; display: flex; align-items: center; justify-content: center;
   }
+
+  .level-label {
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--navy-soft); margin: 36px 0 18px;
+  }
+  .level-label:first-child { margin-top: 0; }
+
+  .empty-state {
+    text-align: center; padding: 60px 20px; color: var(--steel);
+    background: var(--paper); border-radius: 18px; border: 1px dashed rgba(16,32,61,0.15);
+  }
+  .empty-state strong { display: block; color: var(--navy); font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 8px; }
 
   @media (max-width: 900px) { .video-grid { grid-template-columns: 1fr; } }
 </style>
@@ -121,72 +133,70 @@
   </section>
 
   <section class="library">
-    <div class="wrap">
-      <div class="video-grid">
-
-        <div class="video-card">
-          <div class="video-thumb" onclick="openVideoModal('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', 'Apresentando-se em inglês')">
-            <div class="play-icon">▶</div>
-          </div>
-          <div class="video-info">
-            <div class="video-level">Iniciante · Aula 1</div>
-            <h3>Apresentando-se em inglês</h3>
-            <p>Frases essenciais para o primeiro contato.</p>
-          </div>
-        </div>
-
-        <div class="video-card">
-          <div class="video-thumb" onclick="openVideoModal('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', 'Verbo to be na prática')">
-            <div class="play-icon">▶</div>
-          </div>
-          <div class="video-info">
-            <div class="video-level">Iniciante · Aula 2</div>
-            <h3>Verbo "to be" na prática</h3>
-            <p>Como usar em conversas do dia a dia.</p>
-          </div>
-        </div>
-
-        <div class="video-card">
-          <div class="video-thumb" onclick="openVideoModal('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', 'Números, dias e horários')">
-            <div class="play-icon">▶</div>
-          </div>
-          <div class="video-info">
-            <div class="video-level">Iniciante · Aula 3</div>
-            <h3>Números, dias e horários</h3>
-            <p>Vocabulário para organizar sua rotina.</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
+    <div class="wrap" id="libraryWrap"></div>
   </section>
 </div>
 
 <div class="video-modal-overlay" id="videoModalOverlay" onclick="if (event.target === this) closeVideoModal()">
   <div class="video-modal">
     <button type="button" class="video-modal-close" aria-label="Fechar" onclick="closeVideoModal()">✕</button>
-    <video id="videoModalPlayer" controls></video>
+    <iframe id="videoModalPlayer" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     <div class="video-modal-title" id="videoModalTitle"></div>
   </div>
 </div>
 
+<script src="aulas-data.js"></script>
 <script src="supabase-client.js"></script>
 <script>
   function openVideoModal(src, title) {
     document.getElementById('videoModalTitle').textContent = title;
-    const player = document.getElementById('videoModalPlayer');
-    player.src = src;
-    player.play();
+    document.getElementById('videoModalPlayer').src = src + (src.includes('?') ? '&' : '?') + 'autoplay=1';
     document.getElementById('videoModalOverlay').classList.add('open');
   }
   function closeVideoModal() {
-    const player = document.getElementById('videoModalPlayer');
-    player.pause();
-    player.removeAttribute('src');
-    player.load();
+    document.getElementById('videoModalPlayer').src = '';
     document.getElementById('videoModalOverlay').classList.remove('open');
   }
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeVideoModal(); });
+
+  function renderLibrary() {
+    const wrap = document.getElementById('libraryWrap');
+
+    if (AULAS_LESSONS.length === 0) {
+      wrap.innerHTML = `
+        <div class="empty-state">
+          <strong>Suas aulas aparecem aqui em breve</strong>
+          <span>Ainda estamos preparando o conteúdo gravado.</span>
+        </div>`;
+      return;
+    }
+
+    const levels = ['Iniciante', 'Intermediário', 'Avançado'];
+    let html = '';
+
+    levels.forEach(level => {
+      const lessons = AULAS_LESSONS.filter(l => l.level === level).sort((a, b) => a.order - b.order);
+      if (lessons.length === 0) return;
+
+      html += `<div class="level-label">${level}</div><div class="video-grid">`;
+      lessons.forEach(lesson => {
+        html += `
+          <div class="video-card">
+            <div class="video-thumb" onclick="openVideoModal('${lesson.embedUrl}', '${lesson.title.replace(/'/g, "\\'")}')">
+              <div class="play-icon">▶</div>
+            </div>
+            <div class="video-info">
+              <div class="video-level">${level} · Aula ${lesson.order}</div>
+              <h3>${lesson.title}</h3>
+              <p>${lesson.description}</p>
+            </div>
+          </div>`;
+      });
+      html += `</div>`;
+    });
+
+    wrap.innerHTML = html;
+  }
 
   document.getElementById('logoutBtn').addEventListener('click', async () => {
     await supabaseClient.auth.signOut();
@@ -214,6 +224,7 @@
       return;
     }
 
+    renderLibrary();
     document.getElementById('memberContent').style.display = 'block';
   })();
 </script>
