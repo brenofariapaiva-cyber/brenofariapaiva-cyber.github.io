@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Área de Membros — Advanced English</title>
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root {
+    --navy: #10203D;
+    --navy-soft: #1B3358;
+    --steel: #7C8CA6;
+    --steel-light: #C7D0DD;
+    --accent: #3E7BFA;
+    --accent-warm: #FF6F5E;
+    --paper: #FBFCFE;
+    --paper-dim: #F1F4F9;
+    --ink: #10203D;
+    --gold: #E8B84B;
+
+    --font-display: 'Poppins', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font-body); color: var(--ink); background: var(--paper); line-height: 1.6; }
+  a { text-decoration: none; color: inherit; }
+  ul { list-style: none; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; }
+
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(251, 252, 254, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(16, 32, 61, 0.08);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+  .logo-img { height: 38px; width: auto; display: block; }
+  .logout-link { font-size: 0.9rem; font-weight: 600; color: var(--navy-soft); background: none; border: none; cursor: pointer; font-family: inherit; }
+
+  .hero-aulas { background: var(--navy); color: var(--paper); padding: 60px 0 52px; text-align: center; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 18px;
+  }
+  .hero-aulas h1 { font-size: clamp(1.7rem, 4vw, 2.4rem); margin-bottom: 12px; }
+  .hero-aulas p { color: var(--steel-light); max-width: 520px; margin: 0 auto; }
+
+  .library { background: var(--paper-dim); padding: 72px 0; }
+  .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .video-card { background: var(--paper); border-radius: 16px; overflow: hidden; border: 1px solid rgba(16,32,61,0.07); transition: transform 0.2s ease; }
+  .video-card:hover { transform: translateY(-4px); }
+  .video-thumb { aspect-ratio: 16/9; background: linear-gradient(135deg, var(--navy), var(--navy-soft)); position: relative; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .video-thumb:hover .play-icon { background: var(--accent); border-color: var(--accent); }
+  .video-thumb .play-icon { width: 52px; height: 52px; border-radius: 50%; background: rgba(251,252,254,0.15); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; color: var(--paper); border: 1.5px solid rgba(251,252,254,0.4); }
+  .video-info { padding: 18px 20px; }
+  .video-level { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .video-info h3 { font-size: 1.02rem; margin-bottom: 6px; }
+  .video-info p { font-size: 0.87rem; color: var(--steel); }
+
+  .gate-screen { min-height: calc(100vh - 76px); display: flex; align-items: center; justify-content: center; padding: 40px 24px; text-align: center; }
+  .gate-box { max-width: 420px; }
+  .gate-box .icon { font-size: 2.6rem; margin-bottom: 18px; }
+  .gate-box h1 { font-size: 1.5rem; margin-bottom: 12px; }
+  .gate-box p { color: var(--steel); margin-bottom: 26px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; padding: 14px 30px; border-radius: 100px; font-weight: 700; font-size: 0.95rem; background: var(--accent); color: var(--navy); }
+
+  .video-modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(6,14,30,0.85); align-items: center; justify-content: center; padding: 24px;
+  }
+  .video-modal-overlay.open { display: flex; }
+  .video-modal { width: 100%; max-width: 780px; background: var(--navy); border-radius: 16px; overflow: hidden; position: relative; }
+  .video-modal video { width: 100%; display: block; aspect-ratio: 16/9; background: #000; }
+  .video-modal-title { padding: 16px 20px; color: var(--paper); font-weight: 600; font-size: 0.98rem; }
+  .video-modal-close {
+    position: absolute; top: -14px; right: -14px; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--paper); color: var(--navy); border: none; cursor: pointer;
+    font-size: 1rem; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  }
+
+  @media (max-width: 900px) { .video-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="index.html"><img src="assets/logo.png" alt="Advanced English" class="logo-img"></a>
+    <button type="button" class="logout-link" id="logoutBtn">Sair</button>
+  </div>
+</header>
+
+<div id="loadingScreen" class="gate-screen"><p style="color: var(--steel);">Carregando...</p></div>
+
+<div id="blockedScreen" class="gate-screen" style="display:none;">
+  <div class="gate-box">
+    <div class="icon">⏳</div>
+    <h1>Acesso ainda não liberado</h1>
+    <p>Estamos confirmando sua compra. Assim que for aprovada, o conteúdo aparece aqui automaticamente. Qualquer dúvida, chama no chat do site.</p>
+    <a href="index.html" class="btn">Voltar ao site</a>
+  </div>
+</div>
+
+<div id="memberContent" style="display:none;">
+  <section class="hero-aulas">
+    <div class="wrap">
+      <div class="eyebrow">Área de Membros</div>
+      <h1>Bem-vindo(a) de volta</h1>
+      <p>Suas aulas gravadas, organizadas por nível.</p>
+    </div>
+  </section>
+
+  <section class="library">
+    <div class="wrap">
+      <div class="video-grid">
+
+        <div class="video-card">
+          <div class="video-thumb" onclick="openVideoModal('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', 'Apresentando-se em inglês')">
+            <div class="play-icon">▶</div>
+          </div>
+          <div class="video-info">
+            <div class="video-level">Iniciante · Aula 1</div>
+            <h3>Apresentando-se em inglês</h3>
+            <p>Frases essenciais para o primeiro contato.</p>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumb" onclick="openVideoModal('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', 'Verbo to be na prática')">
+            <div class="play-icon">▶</div>
+          </div>
+          <div class="video-info">
+            <div class="video-level">Iniciante · Aula 2</div>
+            <h3>Verbo "to be" na prática</h3>
+            <p>Como usar em conversas do dia a dia.</p>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumb" onclick="openVideoModal('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', 'Números, dias e horários')">
+            <div class="play-icon">▶</div>
+          </div>
+          <div class="video-info">
+            <div class="video-level">Iniciante · Aula 3</div>
+            <h3>Números, dias e horários</h3>
+            <p>Vocabulário para organizar sua rotina.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="video-modal-overlay" id="videoModalOverlay" onclick="if (event.target === this) closeVideoModal()">
+  <div class="video-modal">
+    <button type="button" class="video-modal-close" aria-label="Fechar" onclick="closeVideoModal()">✕</button>
+    <video id="videoModalPlayer" controls></video>
+    <div class="video-modal-title" id="videoModalTitle"></div>
+  </div>
+</div>
+
+<script src="supabase-client.js"></script>
+<script>
+  function openVideoModal(src, title) {
+    document.getElementById('videoModalTitle').textContent = title;
+    const player = document.getElementById('videoModalPlayer');
+    player.src = src;
+    player.play();
+    document.getElementById('videoModalOverlay').classList.add('open');
+  }
+  function closeVideoModal() {
+    const player = document.getElementById('videoModalPlayer');
+    player.pause();
+    player.removeAttribute('src');
+    player.load();
+    document.getElementById('videoModalOverlay').classList.remove('open');
+  }
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeVideoModal(); });
+
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await supabaseClient.auth.signOut();
+    window.location.href = 'index.html';
+  });
+
+  (async function checkAccess() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+
+    if (!session) {
+      window.location.href = 'area-do-aluno.html';
+      return;
+    }
+
+    const { data: profile, error } = await supabaseClient
+      .from('profiles')
+      .select('ativo')
+      .eq('id', session.user.id)
+      .single();
+
+    document.getElementById('loadingScreen').style.display = 'none';
+
+    if (error || !profile || !profile.ativo) {
+      document.getElementById('blockedScreen').style.display = 'flex';
+      return;
+    }
+
+    document.getElementById('memberContent').style.display = 'block';
+  })();
+</script>
+
+</body>
+</html>

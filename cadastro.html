@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Área do Aluno — Advanced English</title>
+<meta name="robots" content="noindex, nofollow">
+<title>Criar Conta — Advanced English</title>
 <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -73,7 +74,7 @@
   }
 
   .login-card {
-    width: 100%; max-width: 360px;
+    width: 100%; max-width: 380px;
     background: rgba(251,252,254,0.06);
     border: 1px solid rgba(251,252,254,0.14);
     border-radius: 20px;
@@ -99,6 +100,7 @@
   }
   .field-group input:focus { outline: none; border-color: var(--accent); }
   .field-group input::placeholder { color: var(--steel-light); opacity: 0.6; }
+  .field-group .hint { font-size: 0.76rem; color: var(--steel-light); margin-top: 5px; }
 
   .login-submit {
     width: 100%; padding: 14px; margin-top: 8px;
@@ -117,6 +119,11 @@
 
   .login-footer { text-align: center; margin-top: 22px; font-size: 0.85rem; color: var(--steel-light); }
   .login-footer a { color: var(--accent); font-weight: 600; }
+
+  .success-box { display: none; text-align: center; }
+  .success-box.show { display: block; }
+  .success-box .icon { font-size: 2.4rem; margin-bottom: 14px; }
+  .success-box p { color: var(--steel-light); font-size: 0.92rem; margin-bottom: 22px; }
 </style>
 </head>
 <body>
@@ -130,74 +137,69 @@
 
 <section class="login-section">
   <div class="login-card">
-    <div class="eyebrow">Área do Aluno</div>
-    <h1>Acesse sua conta</h1>
-    <p class="sub">Entre com seu e-mail e senha para acessar o conteúdo.</p>
-    <form id="loginForm">
-      <div class="field-group">
-        <label for="email">E-mail</label>
-        <input type="email" id="email" placeholder="voce@email.com" required>
-      </div>
-      <div class="field-group">
-        <label for="senha">Senha</label>
-        <input type="password" id="senha" placeholder="Sua senha" required>
-      </div>
-      <button type="submit" class="login-submit" id="loginBtn">Entrar</button>
-      <div class="login-msg" id="loginMsg"></div>
-    </form>
-    <div class="login-footer">Ainda não tem conta? <a href="cadastro.html">Criar conta</a></div>
+    <div id="formBox">
+      <div class="eyebrow">Área do Aluno</div>
+      <h1>Criar sua conta</h1>
+      <p class="sub">Use o mesmo e-mail da sua compra do Curso Gravado.</p>
+      <form id="signupForm">
+        <div class="field-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" placeholder="voce@email.com" required>
+        </div>
+        <div class="field-group">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" placeholder="Crie uma senha" minlength="6" required>
+          <div class="hint">Mínimo de 6 caracteres.</div>
+        </div>
+        <button type="submit" class="login-submit" id="signupBtn">Criar conta</button>
+        <div class="login-msg" id="signupMsg"></div>
+      </form>
+      <div class="login-footer">Já tem conta? <a href="area-do-aluno.html">Entrar</a></div>
+    </div>
+
+    <div class="success-box" id="successBox">
+      <div class="icon">✅</div>
+      <h1>Conta criada!</h1>
+      <p>Assim que confirmarmos sua compra, seu acesso à área de membros será liberado. Isso pode levar até algumas horas.</p>
+      <a href="index.html" class="login-submit" style="display:block;">Voltar ao site</a>
+    </div>
   </div>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-client.js"></script>
 <script>
-  const loginForm = document.getElementById('loginForm');
-  const loginBtn = document.getElementById('loginBtn');
-  const loginMsg = document.getElementById('loginMsg');
+  const signupForm = document.getElementById('signupForm');
+  const signupBtn = document.getElementById('signupBtn');
+  const signupMsg = document.getElementById('signupMsg');
 
   function showMsg(text, type) {
-    loginMsg.textContent = text;
-    loginMsg.className = `login-msg show ${type}`;
+    signupMsg.textContent = text;
+    signupMsg.className = `login-msg show ${type}`;
   }
 
-  loginForm.addEventListener('submit', async function(e) {
+  signupForm.addEventListener('submit', async function(e) {
     e.preventDefault();
-    loginBtn.disabled = true;
-    loginBtn.textContent = 'Entrando...';
-    loginMsg.className = 'login-msg';
+    signupBtn.disabled = true;
+    signupBtn.textContent = 'Criando...';
+    signupMsg.className = 'login-msg';
 
     const email = document.getElementById('email').value.trim();
     const senha = document.getElementById('senha').value;
 
-    const { error } = await supabaseClient.auth.signInWithPassword({ email, password: senha });
+    const { error } = await supabaseClient.auth.signUp({ email, password: senha });
 
     if (error) {
-      loginBtn.disabled = false;
-      loginBtn.textContent = 'Entrar';
-      showMsg('E-mail ou senha incorretos.', 'error');
+      signupBtn.disabled = false;
+      signupBtn.textContent = 'Criar conta';
+      showMsg(error.message.includes('already registered') ? 'Esse e-mail já tem conta cadastrada.' : 'Não deu pra criar a conta. Tente de novo.', 'error');
       return;
     }
 
-    window.location.href = 'membros.html';
+    document.getElementById('formBox').style.display = 'none';
+    document.getElementById('successBox').classList.add('show');
   });
 </script>
-
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "77ec1cdcc096464abd70ce2c465752a1"}'></script><!-- End Cloudflare Web Analytics -->
-
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/6a95bdf91dbcd93448907ff4/1k1ces5ph';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
 
 </body>
 </html>

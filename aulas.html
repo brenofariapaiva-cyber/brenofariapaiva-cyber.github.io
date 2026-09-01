@@ -69,6 +69,9 @@
     gap: 6px;
   }
 
+  .nav-links-group { display: flex; align-items: center; gap: 22px; }
+  .member-link { font-size: 0.9rem; font-weight: 600; color: var(--accent); }
+
   /* Hero */
   .hero-aulas {
     background: var(--navy);
@@ -312,7 +315,10 @@
 <header>
   <div class="wrap nav">
     <a href="index.html" class="logo"><img src="assets/logo.png" alt="Advanced English" style="height: 38px;"></a>
-    <a href="index.html" class="back-link">Voltar ao site</a>
+    <div class="nav-links-group">
+      <a href="area-do-aluno.html" class="member-link">Já é aluno? Entrar</a>
+      <a href="index.html" class="back-link">Voltar ao site</a>
+    </div>
   </div>
 </header>
 
