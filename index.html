@@ -257,6 +257,22 @@ fbq('track', 'PageView');
   .section-head p { color: var(--navy-soft); font-size: 1rem; }
   .center { text-align: center; margin-left: auto; margin-right: auto; }
 
+  /* ---------- Galeria da escola ---------- */
+  .school-gallery { background: var(--paper-dim); }
+  .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .gallery-item {
+    position: relative; border-radius: 16px; overflow: hidden;
+    aspect-ratio: 3/4; background: var(--navy);
+    box-shadow: 0 12px 28px -14px rgba(16,32,61,0.3);
+  }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gallery-item .gallery-caption {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 14px 14px 12px;
+    background: linear-gradient(0deg, rgba(6,14,30,0.85), transparent);
+    color: var(--paper); font-size: 0.85rem; font-weight: 600;
+  }
+
   /* ---------- Modalidades ---------- */
   .modalities { background: var(--paper); }
   .modality-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
@@ -512,6 +528,7 @@ fbq('track', 'PageView');
     .footer-grid { grid-template-columns: 1fr; gap: 24px; }
     .nivel-banner-card { flex-direction: column; text-align: center; padding: 26px 22px; }
     .nivel-banner-text { flex-direction: column; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 560px) {
     .why-grid { grid-template-columns: 1fr; }
@@ -683,6 +700,34 @@ fbq('track', 'PageView');
         <span class="why-icon">🧒</span>
         <h3>Para todas as idades</h3>
         <p>Metodologia adaptada para crianças a partir de 3 anos, adolescentes e adultos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="school-gallery">
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="eyebrow">Conheça a escola</div>
+      <h2>Advanced English por dentro</h2>
+      <p class="center">Nossa sala, nossos alunos e um pouquinho do dia a dia das aulas em Juiz de Fora.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="assets/foto-sala-aula.jpeg" alt="Sala de aula da Advanced English">
+        <div class="gallery-caption">Nossa sala de aula</div>
+      </div>
+      <div class="gallery-item">
+        <img src="assets/foto-porta-boasvindas.jpeg" alt="Entrada da sala de aula com boas-vindas em inglês">
+        <div class="gallery-caption">Bem-vindo(a)!</div>
+      </div>
+      <div class="gallery-item">
+        <img src="assets/foto-cooking-class.jpeg" alt="Alunos participando de uma aula prática de culinária em inglês">
+        <div class="gallery-caption">Aula temática (cooking class)</div>
+      </div>
+      <div class="gallery-item">
+        <img src="assets/foto-atividade-pratica.jpeg" alt="Aluno sorrindo durante atividade prática em sala">
+        <div class="gallery-caption">Aprender fazendo</div>
       </div>
     </div>
   </div>
