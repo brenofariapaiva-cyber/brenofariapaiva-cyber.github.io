@@ -1027,6 +1027,7 @@ fbq('track', 'PageView');
     const texto = `Olá! Quero uma aula experimental grátis.\nNome: ${nome}\nE-mail: ${email}\nWhatsApp: ${whats}\nComo prefiro estudar: ${formato}`;
     const url = `https://wa.me/5531998841238?text=${encodeURIComponent(texto)}`;
     if (typeof fbq === 'function') fbq('track', 'Lead');
+    if (typeof gtag === 'function') gtag('event', 'conversion', {'send_to': 'AW-18204751017/DeiZCMazm-wcEKnp2ehD'});
     window.open(url, '_blank');
   });
 </script>
