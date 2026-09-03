@@ -190,6 +190,35 @@ fbq('track', 'PageView');
   .btn-ghost { background: rgba(251,252,254,0.08); color: var(--paper); border: 1.5px solid rgba(251,252,254,0.28); }
   .btn-ghost:hover { background: rgba(251,252,254,0.16); }
 
+  .hero-video-link {
+    display: inline-flex; align-items: center; gap: 10px;
+    margin-top: 22px; background: none; border: none; cursor: pointer;
+    color: var(--steel-light); font-family: var(--font-body); font-size: 0.92rem; font-weight: 600;
+    padding: 0; transition: color 0.2s ease;
+  }
+  .hero-video-link:hover { color: var(--paper); }
+  .hero-video-link .play-icon-sm {
+    width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+    background: rgba(251,252,254,0.1); border: 1.5px solid rgba(251,252,254,0.3);
+    display: flex; align-items: center; justify-content: center; font-size: 0.7rem;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .hero-video-link:hover .play-icon-sm { background: var(--accent); border-color: var(--accent); }
+
+  .video-modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(6,14,30,0.85); align-items: center; justify-content: center; padding: 24px;
+  }
+  .video-modal-overlay.open { display: flex; }
+  .video-modal { width: 100%; max-width: 780px; background: var(--navy); border-radius: 16px; overflow: hidden; position: relative; }
+  .video-modal iframe { width: 100%; display: block; aspect-ratio: 16/9; background: #000; border: none; }
+  .video-modal-title { padding: 16px 20px; color: var(--paper); font-weight: 600; font-size: 0.98rem; }
+  .video-modal-close {
+    position: absolute; top: -14px; right: -14px; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--paper); color: var(--navy); border: none; cursor: pointer;
+    font-size: 1rem; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  }
+
   /* Orbit stat graphic */
   .orbit-wrap { position: relative; display: flex; align-items: center; justify-content: center; min-height: 340px; }
 
@@ -589,6 +618,9 @@ fbq('track', 'PageView');
         <a href="#contato" class="btn btn-primary">Aula experimental grátis</a>
         <a href="#modalidades" class="btn btn-ghost">Conhecer os formatos</a>
       </div>
+      <button type="button" class="hero-video-link" onclick="openVideoModal('https://www.youtube.com/embed/Mc6q7rTo9DI', 'Conheça a Advanced English')">
+        <span class="play-icon-sm">▶</span> Assista a apresentação do curso
+      </button>
     </div>
     <div class="orbit-wrap">
       <svg class="orbit-svg" viewBox="0 0 380 380">
@@ -923,6 +955,14 @@ fbq('track', 'PageView');
   </div>
 </footer>
 
+<div class="video-modal-overlay" id="videoModalOverlay" onclick="if (event.target === this) closeVideoModal()">
+  <div class="video-modal">
+    <button type="button" class="video-modal-close" aria-label="Fechar" onclick="closeVideoModal()">✕</button>
+    <iframe id="videoModalPlayer" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <div class="video-modal-title" id="videoModalTitle"></div>
+  </div>
+</div>
+
 <button type="button" class="whatsapp-float" id="contactFabToggle" aria-label="Fale com a gente" aria-expanded="false">
   <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
     <path d="M12 2C6.477 2 2 6.145 2 11.25c0 2.83 1.394 5.354 3.575 7.05-.126 1.11-.462 2.68-1.298 3.9-.107.156.01.363.195.334 1.83-.284 3.55-1.12 4.6-1.72a11.8 11.8 0 002.928.436c5.523 0 10-4.145 10-9.25S17.523 2 12 2z"/>
@@ -1019,6 +1059,17 @@ fbq('track', 'PageView');
     document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
     if (!wasOpen) item.classList.add('open');
   }
+
+  function openVideoModal(src, title) {
+    document.getElementById('videoModalTitle').textContent = title;
+    document.getElementById('videoModalPlayer').src = src + (src.includes('?') ? '&' : '?') + 'autoplay=1';
+    document.getElementById('videoModalOverlay').classList.add('open');
+  }
+  function closeVideoModal() {
+    document.getElementById('videoModalPlayer').src = '';
+    document.getElementById('videoModalOverlay').classList.remove('open');
+  }
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeVideoModal(); });
 
   document.getElementById('trialForm').addEventListener('submit', function(e) {
     e.preventDefault();
