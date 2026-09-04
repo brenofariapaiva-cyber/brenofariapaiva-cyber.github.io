@@ -191,19 +191,13 @@ fbq('track', 'PageView');
   .btn-ghost:hover { background: rgba(251,252,254,0.16); }
 
   .hero-video-link {
-    display: inline-flex; align-items: center; gap: 10px;
+    display: inline-flex; align-items: center;
     margin-top: 22px; background: none; border: none; cursor: pointer;
     color: var(--steel-light); font-family: var(--font-body); font-size: 0.92rem; font-weight: 600;
-    padding: 0; transition: color 0.2s ease;
+    padding: 0; text-decoration: underline; text-underline-offset: 3px;
+    transition: color 0.2s ease;
   }
   .hero-video-link:hover { color: var(--paper); }
-  .hero-video-link .play-icon-sm {
-    width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
-    background: rgba(251,252,254,0.1); border: 1.5px solid rgba(251,252,254,0.3);
-    display: flex; align-items: center; justify-content: center; font-size: 0.7rem;
-    transition: background 0.2s ease, border-color 0.2s ease;
-  }
-  .hero-video-link:hover .play-icon-sm { background: var(--accent); border-color: var(--accent); }
 
   .video-modal-overlay {
     display: none; position: fixed; inset: 0; z-index: 1000;
@@ -629,7 +623,7 @@ fbq('track', 'PageView');
         <a href="#modalidades" class="btn btn-ghost">Conhecer os formatos</a>
       </div>
       <button type="button" class="hero-video-link" onclick="openVideoModal('https://www.youtube.com/embed/I6Sp5dNcmug', 'Conheça a Advanced English')">
-        <span class="play-icon-sm">▶</span> Assista a apresentação do curso
+        Assista a apresentação do curso
       </button>
     </div>
     <div class="orbit-wrap">
