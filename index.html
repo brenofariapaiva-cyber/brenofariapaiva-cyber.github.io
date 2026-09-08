@@ -388,15 +388,11 @@ fbq('track', 'PageView');
   .testimonial-stars { color: var(--gold); font-size: 0.95rem; margin-bottom: 14px; letter-spacing: 2px; }
   .testimonial-card p.quote { color: var(--navy-soft); font-size: 0.94rem; flex: 1; margin-bottom: 20px; }
   .testimonial-author { display: flex; align-items: center; gap: 12px; }
-  .testimonial-avatar-wrap { position: relative; flex-shrink: 0; }
   .testimonial-avatar {
-    width: 40px; height: 40px; border-radius: 50%;
-    object-fit: cover; display: block;
-  }
-  .testimonial-dot {
-    position: absolute; bottom: 0; right: 0;
-    width: 10px; height: 10px; border-radius: 50%;
-    background: #22C55E; border: 2px solid var(--paper-dim);
+    width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--navy); color: var(--paper);
+    font-family: var(--font-display); font-weight: 700; font-size: 0.85rem;
   }
   .testimonial-author strong { display: block; font-size: 0.9rem; }
   .testimonial-author span { font-size: 0.78rem; color: var(--steel); }
@@ -797,7 +793,32 @@ fbq('track', 'PageView');
       <div class="eyebrow">Depoimentos</div>
       <h2>O que nossos alunos dizem</h2>
     </div>
-    <div class="elfsight-app-253f50df-5c92-4274-8de8-048770676c37" data-elfsight-app-lazy></div>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="quote">"Um espetáculo"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">DS</div>
+          <div><strong>Denner Souza</strong><span>Avaliação no Google</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="quote">"Meus filhos estudam no curso, recomendo pra todos!"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">GB</div>
+          <div><strong>Gustavo P. Barbosa</strong><span>Avaliação no Google</span></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="quote">"Excelente curso! Estamos adorando."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">CR</div>
+          <div><strong>Caroline Rodrigues</strong><span>Avaliação no Google</span></div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1111,8 +1132,6 @@ s0.parentNode.insertBefore(s1,s0);
 </script>
 <!--End of Tawk.to Script-->
 
-<!-- Elfsight Google Reviews widget -->
-<script src="https://elfsightcdn.com/platform.js" async></script>
 
 </body>
 </html>
