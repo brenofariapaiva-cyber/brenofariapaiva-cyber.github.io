@@ -324,7 +324,6 @@ fbq('track', 'PageView');
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   }
   .modality-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -18px rgba(16,32,61,0.2); }
-  .modality-card.highlight { border-color: var(--accent); background: linear-gradient(160deg, rgba(62,123,250,0.08), var(--paper-dim) 60%); }
 
   .modality-icon {
     width: 46px; height: 46px; border-radius: 13px;
@@ -353,7 +352,6 @@ fbq('track', 'PageView');
     font-size: 0.9rem; font-weight: 600; color: var(--navy);
     display: inline-flex; align-items: center; gap: 6px;
   }
-  .modality-card.highlight .modality-link { color: var(--accent); }
   .modality-link .arrow { transition: transform 0.2s ease; }
   .modality-card:hover .arrow { transform: translateX(3px); }
 
@@ -663,7 +661,7 @@ fbq('track', 'PageView');
         </ul>
         <a href="aula-presencial.html" class="modality-link">Agendar visita <span class="arrow">→</span></a>
       </div>
-      <div class="modality-card highlight" id="aovivo">
+      <div class="modality-card" id="aovivo">
         <div class="modality-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2.5" y="6.5" width="13" height="11" rx="2"/><path d="M15.5 10l6-3.5v11l-6-3.5"/>
